@@ -1,5 +1,5 @@
 
-# Simmple Fastapi app
+# Simple Fastapi app
 
 Run: 
 ```
