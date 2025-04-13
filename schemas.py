@@ -17,3 +17,12 @@ class STask(STaskAdd):
 class STaskId(BaseModel):
     ok: bool = True
     id: int
+
+
+class SBookAdd(BaseModel):
+    title: str
+    author: str
+
+
+class SBookId(SBookAdd):
+    id: int

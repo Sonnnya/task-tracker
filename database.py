@@ -30,3 +30,23 @@ async def create_tables():
 async def delete_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Model.metadata.drop_all)
+
+
+async def get_session():
+    async with new_session() as session:
+        yield session
+
+
+class BookModel(Model):
+    __tablename__ = 'Books'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str]
+    author: Mapped[str]
+
+
+async def set_db():
+    async with engine.begin() as conn:
+        conn.run_sync(BookModel.metadata.drop_all)
+        conn.run_sync(BookModel.metadata.create_all)
+    return {"ok": True}

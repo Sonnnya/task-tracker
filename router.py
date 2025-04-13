@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 
-@router.post('/task')
+@router.post('/')
 async def add_task(
     task: Annotated[STaskAdd, Depends()]
 ) -> STaskId:
@@ -18,7 +18,7 @@ async def add_task(
     return {"ok": True, "id": id}
 
 
-@router.get('/tasks')
+@router.get('/')
 async def get_tasks() -> list[STask]:
     tasks = await RepTask.find_all()
 
