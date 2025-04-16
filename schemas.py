@@ -1,6 +1,6 @@
 
 from typing import Optional
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class STaskAdd(BaseModel):
@@ -28,3 +28,8 @@ class SBookId(SBookAdd):
     id: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class SPagination(BaseModel):
+    limit: int = Field(le=0, ge=100),
+    offset: int = Field(le=0, ge=100),
