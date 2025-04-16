@@ -26,3 +26,5 @@ class SBookAdd(BaseModel):
 
 class SBookId(SBookAdd):
     id: int
+
+    model_config = ConfigDict(from_attributes=True)
