@@ -21,12 +21,12 @@ class STaskId(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class SBookAdd(BaseModel):
-    title: str
-    author: str
+class SUserAdd(BaseModel):
+    name: str
+    position: str
 
 
-class SBookId(SBookAdd):
+class SUserId(SUserAdd):
     id: int
 
     model_config = ConfigDict(from_attributes=True)

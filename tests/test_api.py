@@ -6,10 +6,10 @@ from main import app
 
 
 @pytest.mark.asyncio
-async def test_get_books():
+async def test_get_users():
     async with AsyncClient(transport=ASGITransport(app),
                            base_url='http://test') as ac:
-        response = await ac.get('/books/')
+        response = await ac.get('/users/')
         print(response)
         assert response.status_code == 200
         data = response.json()

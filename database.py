@@ -37,16 +37,16 @@ async def get_session():
         yield session
 
 
-class BookModel(Model):
-    __tablename__ = 'Books'
+class UserModel(Model):
+    __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str]
-    author: Mapped[str]
+    name: Mapped[str]
+    position: Mapped[str]
 
 
 async def set_db():
     async with engine.begin() as conn:
-        conn.run_sync(BookModel.metadata.drop_all)
-        conn.run_sync(BookModel.metadata.create_all)
+        conn.run_sync(UserModel.metadata.drop_all)
+        conn.run_sync(UserModel.metadata.create_all)
     return {"ok": True}
