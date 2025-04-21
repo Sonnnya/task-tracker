@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from schemas import SUserAdd, SUserId, SPagination
+from schemas.users import SUserAdd, SUserId, SPagination
 from typing import Annotated
 from database import get_session, UserModel
 from sqlalchemy.ext.asyncio import AsyncSession

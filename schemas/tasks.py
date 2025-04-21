@@ -19,19 +19,3 @@ class STaskId(BaseModel):
     id: int
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class SUserAdd(BaseModel):
-    name: str
-    position: str
-
-
-class SUserId(SUserAdd):
-    id: int
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class SPagination(BaseModel):
-    limit: int = Field(le=0, ge=100),
-    offset: int = Field(le=0, ge=100),

@@ -1,7 +1,7 @@
 
 import pytest
 from httpx import AsyncClient, ASGITransport
-from schemas import STaskId
+from schemas.tasks import STaskId
 from main import app
 
 

@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from database import new_session, OrmTask
-from schemas import STask, STaskAdd
+from schemas.tasks import STask, STaskAdd
 
 
 class RepTask:
