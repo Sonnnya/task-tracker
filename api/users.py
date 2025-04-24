@@ -11,7 +11,7 @@ router = APIRouter(prefix='/users', tags=['Users'])
 
 
 @router.post('/')
-async def add_user(user: Annotated[SUserAdd, Depends()], session: SessionDep):
+async def add_user(user: SUserAdd, session: SessionDep):
     new_user = UserModel(**(user.model_dump()))
     session.add(new_user)
     await session.commit()
@@ -27,15 +27,15 @@ async def get_users(session: SessionDep):
 PaginationDep = Annotated[SPagination, Depends(SPagination)]
 
 
-@router.get('/pages')
+@router.get('/pages', response_model=list[SUserId])
 async def get_users_pagination(
         session: SessionDep,
-        pagination_dep: PaginationDep
+        pagination: PaginationDep
 ) -> list[SUserId]:
     query = (
         select(UserModel)
-        .limit(pagination_dep.limit)
-        .offset(pagination_dep.offset)
+        .limit(pagination.limit)
+        .offset(pagination.offset)
     )
     result = await session.execute(query)
     return result.scalars().all()
