@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from models import Model
-from models import OrmTask
-from models import UserModel
+from models.users import UserModel
 
 engine = create_async_engine(
     "sqlite+aiosqlite:///tasks.db"

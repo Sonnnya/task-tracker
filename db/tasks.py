@@ -1,9 +1,11 @@
 from sqlalchemy import select
-from database import new_session, OrmTask
+from .db import new_session
+from models import OrmTask
 from schemas.tasks import STask, STaskAdd
+from repositories import TasksRepository
 
 
-class RepTask:
+class SQLAlchemyRepTask(TasksRepository):
     @classmethod
     async def add_one(cls, task: STaskAdd) -> int:
         async with new_session() as session:
