@@ -19,19 +19,3 @@ class STaskId(BaseModel):
     id: int
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class SBookAdd(BaseModel):
-    title: str
-    author: str
-
-
-class SBookId(SBookAdd):
-    id: int
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class SPagination(BaseModel):
-    limit: int = Field(le=0, ge=100),
-    offset: int = Field(le=0, ge=100),
