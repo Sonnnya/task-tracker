@@ -1,5 +1,4 @@
 from sqlalchemy import select
-from .session import new_session
 from models import OrmTask
 from schemas.tasks import STask, STaskAdd
 from repositories import TasksRepository
@@ -18,7 +17,7 @@ class SQLAlchemyTasksRep(TasksRepository):
         await session.commit()
         return task.id
 
-    async def find_all(self, session: SessionDep) -> list[STask]:
+    async def get_all(self, session: SessionDep) -> list[STask]:
         query = select(self.model)
         result = await session.execute(query)
         task_models = result.scalars().all()

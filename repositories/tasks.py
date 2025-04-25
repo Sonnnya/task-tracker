@@ -7,5 +7,5 @@ class TasksRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def find_all():
+    async def get_all():
         raise NotImplementedError

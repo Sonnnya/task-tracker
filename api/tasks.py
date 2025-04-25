@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from schemas.tasks import STask, STaskAdd, STaskId
-from db.tasks import SQLAlchemyTasksRep
-from dependencies import SessionDep
+from dependencies import SessionDep, TaskServiceDep
 
 router = APIRouter(
     prefix='/task',
@@ -12,14 +11,13 @@ router = APIRouter(
 @router.post('/')
 async def add_task(
     task: STaskAdd,
-    session: SessionDep
+    session: SessionDep,
+    task_service: TaskServiceDep
 ) -> STaskId:
-    id = await SQLAlchemyTasksRep().add_one(session, task)
+    id = await task_service.add_one(session, task)
     return {"ok": True, "id": id}
 
 
 @router.get('/')
-async def get_tasks(session: SessionDep) -> list[STask]:
-    tasks = await SQLAlchemyTasksRep().find_all(session)
-
-    return tasks
+async def get_tasks(session: SessionDep, task_service: TaskServiceDep) -> list[STask]:
+    return await task_service.get_all(session)

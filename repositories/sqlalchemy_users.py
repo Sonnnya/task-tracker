@@ -8,7 +8,7 @@ from schemas.users import SUserAdd, SUser
 class SQLAlchemyUsersRep(UsersRepository):
     model = OrmUser
 
-    async def add_one(self, user: SUserAdd, session: SessionDep) -> int:
+    async def add_one(self, session: SessionDep, user: SUserAdd) -> int:
         new_user = self.model(**user)
         session.add(new_user)
         await session.commit()
