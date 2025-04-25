@@ -1,41 +1,25 @@
-from fastapi import APIRouter, Depends
-from schemas.users import SUserAdd, SUserId, SPagination
-from typing import Annotated
-from db.db import get_session, UserModel
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from fastapi import APIRouter
+from dependencies import PaginationDep, SessionDep
+from schemas.users import SUserAdd, SUser, SPagination
+from db import SQLAlchemyUsersRep
 
-SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 router = APIRouter(prefix='/users', tags=['Users'])
 
 
 @router.post('/')
-async def add_user(user: SUserAdd, session: SessionDep):
-    new_user = UserModel(**(user.model_dump()))
-    session.add(new_user)
-    await session.commit()
+async def add_user(user: SUserAdd, session: SessionDep) -> int:
+    new_user = user.model_dump()
+    return await SQLAlchemyUsersRep().add_one(new_user, session)
 
 
-@router.get('/')
+@router.get('/', response_model=list[SUser])
 async def get_users(session: SessionDep):
-    query = select(UserModel)
-    result = await session.execute(query)
-    return result.scalars().all()
+    return await SQLAlchemyUsersRep().get_all(session)
 
 
-PaginationDep = Annotated[SPagination, Depends(SPagination)]
-
-
-@router.get('/pages', response_model=list[SUserId])
+@router.get('/pages', response_model=list[SUser])
 async def get_users_pagination(
-        session: SessionDep,
-        pagination: PaginationDep
-) -> list[SUserId]:
-    query = (
-        select(UserModel)
-        .limit(pagination.limit)
-        .offset(pagination.offset)
-    )
-    result = await session.execute(query)
-    return result.scalars().all()
+        pagination: PaginationDep, session: SessionDep
+) -> list[SUser]:
+    return await SQLAlchemyUsersRep().get_paginated(session, pagination)

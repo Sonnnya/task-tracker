@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
 
-class UsersReposetory(ABC):
+class UsersRepository(ABC):
     @abstractmethod
-    def get_one():
+    async def add_one():
         raise NotImplementedError
 
     @abstractmethod
-    def get_all():
+    async def get_all():
         raise NotImplementedError

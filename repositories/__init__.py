@@ -1,4 +1,4 @@
 from .tasks import TasksRepository
-from .users import UsersReposetory
+from .users import UsersRepository
 
-__all__ = ['TasksRepository', 'UsersReposetory']
+__all__ = ['TasksRepository', 'UsersRepository']

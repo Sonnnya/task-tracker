@@ -1,29 +1,28 @@
 from sqlalchemy import select
-from .db import new_session
+from .session import new_session
 from models import OrmTask
 from schemas.tasks import STask, STaskAdd
 from repositories import TasksRepository
+from dependencies import SessionDep
 
 
-class SQLAlchemyRepTask(TasksRepository):
-    @classmethod
-    async def add_one(cls, task: STaskAdd) -> int:
-        async with new_session() as session:
-            data_dict = task.model_dump()
-            task = OrmTask(**data_dict)
+class SQLAlchemyTasksRep(TasksRepository):
+    model = OrmTask
 
-            session.add(task)
-            await session.flush()
-            await session.commit()
-            return task.id
+    async def add_one(self, session: SessionDep, task: STaskAdd) -> int:
+        task = task.model_dump()
+        task = self.model(**task)
 
-    @classmethod
-    async def find_all(cls) -> list[STask]:
-        async with new_session() as session:
-            query = select(OrmTask)
-            result = await session.execute(query)
-            task_models = result.scalars().all()
+        session.add(task)
+        await session.flush()
+        await session.commit()
+        return task.id
 
-            task_schemas = [STask.model_validate(
-                task_model) for task_model in task_models]
-            return task_schemas
+    async def find_all(self, session: SessionDep) -> list[STask]:
+        query = select(self.model)
+        result = await session.execute(query)
+        task_models = result.scalars().all()
+
+        task_schemas = [STask.model_validate(
+            task_model) for task_model in task_models]
+        return task_schemas

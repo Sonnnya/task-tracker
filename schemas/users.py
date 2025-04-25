@@ -7,12 +7,12 @@ class SUserAdd(BaseModel):
     position: str
 
 
-class SUserId(SUserAdd):
+class SUser(SUserAdd):
     id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class SPagination(BaseModel):
-    limit: int = Field(le=0, ge=100),
-    offset: int = Field(le=0, ge=100),
+    limit: int = Field(10, ge=0, le=100)
+    offset: int = Field(0, ge=0, le=100)

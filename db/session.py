@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from models import Model
-from models.users import UserModel
+from models.users import OrmUser
 
 engine = create_async_engine(
     "sqlite+aiosqlite:///tasks.db"
@@ -26,6 +26,6 @@ async def get_session():
 
 async def set_db():
     async with engine.begin() as conn:
-        conn.run_sync(UserModel.metadata.drop_all)
-        conn.run_sync(UserModel.metadata.create_all)
+        conn.run_sync(OrmUser.metadata.drop_all)
+        conn.run_sync(OrmUser.metadata.create_all)
     return {"ok": True}
