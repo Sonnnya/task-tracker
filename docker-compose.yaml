@@ -41,7 +41,7 @@ services:
       - grafanadata:/var/lib/grafana
 
   backend:
-    build: .
+    build: ./app
     container_name: backend
     ports:
       - "8080:8080"
