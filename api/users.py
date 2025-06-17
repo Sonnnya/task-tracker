@@ -10,7 +10,7 @@ router = APIRouter(prefix='/users', tags=['Users'])
 @router.post('/')
 async def add_user(user: SUserAdd, session: SessionDep, user_service: UsersServiceDep) -> int:
     new_user = user.model_dump()
-    return await user_service.add_one(new_user, session)
+    return await user_service.add_one(session, new_user)
 
 
 @router.get('/', response_model=list[SUser])

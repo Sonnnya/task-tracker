@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from db.session import create_tables, delete_tables
 from api.users import router as users_router
 from api.tasks import router as tasks_router
+from api.auth import router as auth_router
 
 
 @asynccontextmanager
@@ -18,3 +19,4 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(users_router)
 app.include_router(tasks_router)
+app.include_router(auth_router)
